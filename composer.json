@@ -13,6 +13,7 @@
         "php": "^7.4",
         "symfony/console": "*",
         "symfony/dependency-injection": "*",
+        "symfony/flex": "*",
         "symfony/config": "*",
         "symfony/http-kernel": "*",
         "knplabs/knp-paginator-bundle": "*",
