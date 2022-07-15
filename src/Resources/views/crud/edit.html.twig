@@ -1,0 +1,6 @@
+{% extends('admin/partials/base.html.twig') %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {{ include('@Crudify/crud/_form.html.twig', {'button_label': 'Editer','class' :'btn btn-primary'}) }}
+{% endblock %}

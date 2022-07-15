@@ -1,0 +1,336 @@
+{% extends('admin/partials/base.html.twig') %}
+{% block title %}
+	{{ title }}
+{% endblock %}
+{% block stylesheets %}
+	<style type="text/css">
+		.page-item.active .page-link {
+			z-index: 1;
+			color: #fff;
+			background-color: #2255a4;
+			border-color: #2255a4;
+		}
+
+		.table-options {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.table-options > li {
+			display: inline-block;
+			margin-left: 10px;
+		}
+
+		.table td {
+			padding: 0.3rem 1rem;
+			vertical-align: middle;
+			border-top: 1px solid #dee2e6;
+		}
+
+		.table th {
+			padding: 0.8rem 1rem;
+			vertical-align: middle;
+			border-top: 1px solid #dee2e6;
+			background: #fff;
+		}
+
+		.table thead th {
+			vertical-align: bottom;
+			border-bottom: 2px solid #dee2e6;
+		}
+
+		.filter {
+			list-style: none;
+			margin: 8px 0 0;
+			padding: 0;
+			font-size: 13px;
+			float: left;
+			color: #666;
+		}
+
+		.filter li {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			white-space: nowrap;
+		}
+
+		.filter a {
+			line-height: 2;
+			padding: 0.2em;
+			text-decoration: none;
+		}
+	</style>
+	<script>
+		function go(id) {
+for (var i = 0, atts = el.attributes, n = atts.length, arr =[]; i < n; i++) {
+arr.push(atts[i].nodeName);
+}
+
+// console.log(document.querySelector(".tr-row-"+id));
+}
+	</script>
+{% endblock %}
+
+{% block body %}
+	{% if displaySearch==true%}
+		{% if app.request.get('q') !='' %}
+			<div class="alert alert-success m-3">
+				Resultat de recherche sur :
+				<strong>
+					{{ app.request.get('q') }}
+				</strong>
+			</div>
+		{% endif %}
+	{% endif %}
+	<div class="page-breadcrumb">
+		<div class="row">
+			<div class="col-12 d-flex no-block align-items-center">
+				<h4 class="page-title mr-3">{{ title }}</h4>
+				<a href="{{ path(routePrefix ~ '_new') }}" class="btn btn-outline-info btn-sm">
+					Ajouter</a>
+				<div class="ml-auto text-right">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="{{ path('admin') }}">Tableau de bord</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-8"></div>
+			<div class="col-sm-4">
+				{% if displaySearch==true%}
+					<form>
+						<input name="q" type="text" class="form-control" placeholder="Rechercher.." value="{{ app.request.get('q') }}">
+					</form>
+				{% endif %}
+			</div>
+			<div></div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="box">
+						<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center; margin-bottom: 5px">
+							<div>
+								{% if tri==true %}
+
+
+									<ul class="box filter">
+										Trier par :
+										{% for th in thead %}
+											{% set valeur='row.' ~ th %}
+											{% if valeur in sort %}
+												<li>|<a class="badge badge-secondary pl-2 pr-2 ml-2 mr-2" href="{{ sort_select_by(rows,attribute(theadContent,th),valeur) }}">{{ attribute(theadContent,th) }}</a>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
+							<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:top">
+								<small class="mr-3 mt-2">{{ count }}
+									élément(s)</small>
+								{{ knp_pagination_render(rows) }}
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+
+						<table class="table table-striped table-bordered mb-0">
+							<thead>
+								<tr>
+
+									{% for th in thead %}
+
+										{% if tri==true %}
+											{% set valeur='row.' ~ th %}
+											{% if valeur in sort %}
+												<th>{{ sort_by(rows,attribute(theadContent,th),valeur) }}</th>
+											{% else %}
+												<th>{{ attribute(theadContent,th) }}</th>
+											{% endif %}
+
+										{% else %}
+											<th>{{ attribute(theadContent,th) }}</th>
+										{% endif %}
+									{% endfor %}
+									<th width="20%">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for i,row in rows %}
+									{% set link = path(routePrefix ~ '_edit', {id: row.id}) %}
+
+									<tr onclick="go({{row.id}})" class="tr-row-{{row.id}}" {% for tb in tbody %} {{tb.name}}={{ attribute(row,tb.name) }} {% endfor %}>
+										{% for td in tbody %}
+
+											<td {% if td.tbw!="auto" %} width="{{ td.tbw }}" {% endif %} style="text-align: {% if td.type==" count" or td.type==" badge-info" or td.type==" badge-success" or td.type==" badge-danger" or td.type==" badge-secondary" or td.type==" boolean" or td.type==" datetime"  %}  center   {% else %} left {% endif %}">
+
+												{% if td.type=="count" %}
+													{% if td.name!=null %}
+														<div class="badge badge-info">{{ attribute(row,td.name) | length }}</div>
+													{% else %}
+														<div>--</div>
+													{% endif %}
+												{% elseif td.type=="boolean" %}
+													{% if td.name!=null %}
+														<span class="crudify-bullet {% if attribute(row,td.name) == false %}crudify-bullet--danger{% endif %}"></span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="badge-info" %}
+													{% if td.name!=null %}
+														<span class="badge badge-info">{{ attribute(row,td.name) }}</span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="badge-success" %}
+													{% if td.name!=null %}
+														<span class="badge badge-success">{{ attribute(row,td.name) }}</span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="badge-danger" %}
+													{% if td.name!=null %}
+														<span class="badge badge-danger">{{ attribute(row,td.name) }}</span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="badge-secondary" %}
+													{% if td.name!=null %}
+														<span class="badge badge-secondary">{{ attribute(row,td.name) }}</span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="icon" %}
+													{% if td.name!=null %}
+														<i class="{{ attribute(row,td.name) }}"></i>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="datetime" %}
+													{% if td.name!=null %}
+														<span class="badge badge-secondary">{{ attribute(row,td.name) | date('d-M-Y') }}</span>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% elseif td.type=="image" %}
+
+												{% else %}
+													{% if td.name!=null %}
+														<a>{{ attribute(row,td.name) }}
+														</a>
+													{% else %}
+														<span>--</span>
+													{% endif %}
+												{% endif %}
+											</td>
+											{#<td>
+																							{% if td.type=="" %}
+																								{% if(row.imageFile=='null') %}
+																									<div class="bg_img">Aucune image</div>
+											
+																									{% else %}
+											
+																								{% endif %}
+																							{% elseif td=="image" %}
+																								{% if(row.image=='null') %}
+																									<div class="bg_img">Aucune image</div>
+																								{% elseif(row.image=='') %}
+																									<div class="bg_img">Aucune image</div>
+																									{% else %}
+											
+											
+																								{% endif %}
+																							{% elseif td=="online" %}
+																								<span class="bullet {% if attribute(row,td) == false %}bullet--danger{% endif %}"></span>
+																							{% elseif td=="icon" %}
+																								<i class="{{ attribute(row,td) }} fa-2x"></i>
+																							{% elseif td=="couverture" %}
+																								<p style="color:{{ attribute(row,td) }}">{{ attribute(row,td) }}</p>
+																							
+																							{% endif %}#}
+										</td>
+									{% endfor %}
+
+									<td style="display: flex">
+
+
+										<ul class="table-options" st>
+											{% if hasCustomOperation!=false %}
+												{%for cop in customOperation%}
+													<li>
+														<a href="{{ path(routePrefix ~"_"~cop.route,{id:row.id}) }}">{{cop.label}}</a>
+													</li>
+												{% endfor %}
+												<li>|</li>
+											{% endif %}
+											<li>
+												<a href="#">
+													{% if showing==true %}
+														<a href="{{ path(routePrefix ~ '_show',{id:row.id}) }}">
+															<i class="mdi mdi-eye"></i>
+														</a>
+													{% endif %}
+												</li>
+											</li>
+											<li>
+												<a class="btn btn-outline-info" href="{{ path(routePrefix ~ '_clone', {id: row.id}) }}">
+													<i class="mdi mdi-content-copy"></i>
+												</a>
+											</li>
+											<li>
+												<a class="btn btn-outline-info" href="{{ link }}">
+													<i class="mdi mdi-pencil"></i>
+												</a>
+											</li>
+											<li>
+												<form action="{{ link }}" id="supprimerForm" method="post" onsubmit="return confirm('Voulez vous vraiment supprimer ce contenu')">
+													<input type="hidden" name="_method" value="DELETE"/>
+													<input type="hidden" name="_token" value="{{ csrf_token('suppression_token') }}">
+													<button class="btn btn-outline-info" type="submit">
+														<i class="mdi mdi-delete"></i>
+													</button>
+												</form>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td class="text-center" colspan="{{ theadCount }}">Aucune donnée trouvée</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+
+				<div class="box">
+					<div style="display:flex;flex-direction:row;justify-content:space-between;margin-bottom: 5px">
+						<div></div>
+						<div style="display:flex;flex-direction:row;justify-content:space-between;align-items:top">
+							<small class="mr-3 mt-2">{{ count }}
+								élément(s)</small>
+							{{ knp_pagination_render(rows) }}
+						</div>
+					</div>
+				</div>
+				<div class="page"></div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}{% block javascripts %}{% endblock %}

@@ -1,0 +1,67 @@
+services:
+  _defaults:
+    bind:
+      $projectDir: '%kernel.project_dir%'
+  ArmelWanes\Crudify\Command\MakeControllerCommand:
+    class: ArmelWanes\Crudify\Command\MakeControllerCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      $name: ~
+      $twig: "@twig"
+  ArmelWanes\Crudify\Command\MakeEntityCommand:
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      $name: ~
+      $twig: "@twig"
+
+  ArmelWanes\Crudify\Annotation\CrudReader:
+    class: ArmelWanes\Crudify\Annotation\CrudReader
+  ArmelWanes\Crudify\Controller\CrudController:
+    class: ArmelWanes\Crudify\Controller\CrudController
+  Knp\Bundle\PaginatorBundle\Helper\Processor: ~
+  ArmelWanes\Crudify\Util\ComposerAutoloaderFinderExtesion:
+    class:  ArmelWanes\Crudify\Util\ComposerAutoloaderFinderExtesion
+    arguments:
+      $rootNamespace: ~
+  crudify.crud_reader:
+    class:  ArmelWanes\Crudify\Annotation\CrudReader
+  crudify.automatic_form:
+    class: ArmelWanes\Crudify\Form\AutomaticForm
+    arguments:
+      - '@crudify.crud_reader'
+  ArmelWanes\Crudify\Helper\Paginator\PaginatorInterface:
+    class: ArmelWanes\Crudify\Helper\Paginator\PaginatorInterface
+  crudify.autoloader_finder_extension:
+    class: ArmelWanes\Crudify\Util\ComposerAutoloaderFinderExtesion
+  crudify.file_manager_extension:
+    class: ArmelWanes\Crudify\FileManagerExtension
+    arguments:
+      - '@filesystem'
+      - '@crudify.autoloader_finder_extension'
+      - '@maker.file_link_formatter'
+      - '%twig.default_path%'
+  crudify.generator_extension:
+    class: ArmelWanes\Crudify\GeneratorExtension
+    arguments:
+      - '@crudify.file_manager_extension'
+      - ''
+  crudify.entity_class_generator_extension:
+    class: ArmelWanes\Crudify\Doctrine\EntityClassGeneratorExtension
+    arguments:
+      - '@crudify.generator_extension'
+  crudify.doctrine_helper_extension:
+    class: ArmelWanes\Crudify\Doctrine\DoctrineHelperExtension
+    arguments:
+      - ''
+      - '@Doctrine\Common\Persistence\ManagerRegistry'
+  crudify.maker.make_managed_entity:
+    class:  ArmelWanes\Crudify\Command\MakeManagedEntity
+    tags:
+      - { name: 'maker.command' }
+    arguments:
+       - '@crudify.doctrine_helper_extension'
+       - '@crudify.file_manager_extension'
+       - '@crudify.generator_extension'
+       - '%kernel.project_dir%'

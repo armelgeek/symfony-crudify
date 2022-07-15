@@ -1,0 +1,313 @@
+{% extends('admin/partials/base.html.twig') %}
+{% block title %}{{ title }} {{ data.id }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+
+        <div class="col-lg-12 col-md-12 col-sm-12">
+
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Tableau de bord</a></li>
+                <li class="breadcrumb-item">{{ title }} {{ data.id }}</li>
+            </ol>
+              <ul class="uk-breadcrumb">
+                <li><a href="">Tableau de bord</a></li>
+                <li><span>{{ title }} {{ data.id }}</span></li>
+              </ul>
+
+            <div class="pt-3 pb-3 pl-2 bg-dark">
+                <h3 class="text-white">{{ title }} {{ data.id }}</h3>
+            </div>
+
+
+            {% for rw in row %}
+
+                {% if rw=="name" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Nom</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="address" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Adresse </h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="imageFile" %}
+                    {% if(data.imageFile!='null') %}
+                        <h5 class="ml-4 mt-4">Image</h5>
+                        <div class="bg_img ml-4"
+                             style="background-position: center;background-size: contain;background-repeat: no-repeat;background-image:url({{ vich_uploader_asset(data,"imageFile") }});height:300px;width:300px"></div>
+                    {% endif %}
+
+                {% elseif rw=="category" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Categorie</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="url" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Url de la visite</h5>
+                        <a class="text-justify ml-4" href=" {{ attribute(data,rw) }}">
+                            {{ attribute(data,rw) }}
+                        </a>
+                    </div>
+
+                {% elseif rw=="distance" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Distance par rapport au centre ville</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }} km
+                        </div>
+                    </div>
+
+                {% elseif rw=="createdAt" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Date d'ajout</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw )| date }}
+                        </div>
+                    </div>
+                {% elseif rw=="author" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Auteur</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="updatedAt" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Date du dernier mis à jour</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) | date }}
+                        </div>
+                    </div>
+                {% elseif rw=="accroche" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Phrase d'accroche</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="nom" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Nom</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="libelle" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Libelle</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="nombre" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Nombre</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="auteur" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Auteur</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="texte" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Mot de l'auteur</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="titre" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Titre</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="icon" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Icon</h5>
+                        <div class="text-justify ml-4">
+                            <div class="{{ attribute(data,rw) }} fa-2x"></div>
+                        </div>
+                    </div>
+                {% elseif rw=="type" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Type</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="imageFile" %}
+                    {% if(data.imageFile!='null') %}
+                        <h5 class="ml-4 mt-4">Image</h5>
+                        <div class="bg_img ml-4"
+                             style="background-position: center;background-size: contain;background-repeat: no-repeat;background-image:url({{ vich_uploader_asset(data,"imageFile") }});height:300px;width:300px"></div>
+                    {% endif %}
+
+                {% elseif rw=="online" %}
+                    <table class="table">
+                        <tr>
+                            <th><h5>Mettre en ligne</h5></th>
+                            <td class="text-right"><a>{% if(attribute(data,rw)==1) %}<span class="badge badge-success">L'article est publié</span>{% else %}
+                                        <span class="badge badge-danger">L'article ne pas encore publié</span>{% endif %}
+                                </a>
+
+                            </td>
+                        </tr>
+                    </table>
+                {% elseif rw=="slogan" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Slogan</h5>
+                        <div class="text-justify ml-4">
+
+                            {% for s in attribute(data,rw) %}
+                                <span class="badge badge-info" style="font-size: 16px">{{ s.contenu }}  </span>
+                                <form action="{{ path('banniere_delete_child_slogan',{id:s.id}) }}" method="post"
+                                      onsubmit="return confirm('Voulez vous vraiment supprimer le slogan')">
+                                    <input type="hidden" name="_method" value="DELETE"/>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% elseif rw=="compte" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Réseau sociaux</h5>
+                        <div class="text-justify row ml-4">
+                            {% for rs in attribute(data,rw) %}
+
+                                <div class="col-2">
+                                    <a target="_blank" href="{{ rs.lien }}">
+
+                                        <div class="d-flex justify-content-center"
+                                             style="background-position: center;background-size: contain;background-repeat: no-repeat;background-image:url({{ vich_uploader_asset(rs.type,'imageFile') }});height:80px">
+
+                                        </div>
+
+                                        <form class="mb-2" action="{{ path('team_delete_child_compte',{id:rs.id}) }}"
+                                              method="post"
+                                              onsubmit="return confirm('Voulez vous vraiment supprimer le compte')">
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block ">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </a>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {% elseif rw=="contenu" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Contenu</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="resume" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Bref resumé</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="lien" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Lien</h5>
+                        <div class="text-justify ml-4">
+                            <a target="_blank" href="{{ attribute(data,rw) }}">{{ attribute(data,rw) }}</a>
+                        </div>
+                    </div>
+                {% elseif rw=="nomComplet" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Nom et prénoms</h5>
+                        <div class="text-justify ml-4">
+                            <a target="_blank" href="{{ attribute(data,rw) }}">{{ attribute(data,rw) }}</a>
+                        </div>
+                    </div>
+                {% elseif rw=="roles" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Rôle</h5>
+                        <div class="text-justify ml-4">
+                            <a target="_blank" href="{{ attribute(data,rw) }}">{{ attribute(data,rw) }}</a>
+                        </div>
+                    </div>
+                {% elseif rw=="couverture" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Couverture</h5>
+                        <div class="text-justify ml-4">
+                            <p style="color:{{ attribute(data,rw) }}">{{ attribute(data,rw) }}</p>
+                        </div>
+                    </div>
+                {% elseif rw=="description" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Déscription</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+                {% elseif rw=="logos" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">Logos</h5>
+                        <div class="text-justify row ml-4">
+                            {% for g in attribute(data,rw) %}
+
+                                <div class="col-2">
+
+                                    <div class="d-flex justify-content-center"
+                                         style="background-position: center;background-size: contain;background-repeat: no-repeat;background-image:url({{ vich_uploader_asset(g,'imageFile') }});height:80px">
+
+                                    </div>
+                                    <form class="mb-2" action="{{ path('service_delete_child_logos',{id:g.id}) }}"
+                                          method="post"
+                                          onsubmit="return confirm('Voulez vous vraiment supprimer le logo')">
+                                        <input type="hidden" name="_method" value="DELETE"/>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-block ">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% elseif rw=="apropos" %}
+                    <div class="mt-4 mb-4 form-group">
+                        <h5 class="ml-4">A propos</h5>
+                        <div class="text-justify ml-4">
+                            {{ attribute(data,rw) }}
+                        </div>
+                    </div>
+
+                {% else %}
+                   
+                
+                {% endif %}
+            {% endfor %}
+
+            <a class="btn btn-primary" href="{{ path(routePrefix  ~'_index') }}"> <i
+                        class="fa fa-angle-double-left"></i> Revenir à la liste</a>
+
+            <a class="btn btn-primary" href="{{ path(routePrefix ~'_edit', {'id': data.id}) }}"><i
+                        class="fa fa-edit"></i> Editer</a>
+        </div>
+    </div>
+{% endblock %}

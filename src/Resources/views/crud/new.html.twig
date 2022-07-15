@@ -1,0 +1,7 @@
+{% extends('admin/partials/base.html.twig') %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {{ include('@Crudify/crud/_form.html.twig', {'button_label': 'Enregistrer','class' :'btn btn-info'}) }}
+  
+{% endblock %}

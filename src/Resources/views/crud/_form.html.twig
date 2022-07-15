@@ -1,0 +1,106 @@
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <h4 class="page-title">{{ title }}</h4>
+            <div class="ml-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('admin') }}">Tableau de bord</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    </div>
+<div class="container-fluid ">
+    <a href="{{ path(routePrefix  ~'_index') }}" class="btn btn-outline-info mb-3"><i
+                class="fa fa-angle-double-left"></i>
+        Revenir à la liste</a>
+   <script type="text/javascript" src="{{ asset('js/jq.js') }}"></script>
+<script type="text/javascript">
+
+    function addContent($container, $index) {
+        var template = $container.attr('data-prototype')
+            .replace(/__name__label__/g, '')
+            .replace(/__name__/g, $index)
+        ;
+        var $prototype = $(template);
+
+        addDeleteLink($prototype);
+        $container.append($prototype);
+        $index++;
+    }
+
+    function addDeleteLink($prototype) {
+        var $deleteLink = $('<div style="margin:20px 0"><a href="#" class="btn btn-danger btn-sm">Retirer</a></div>');
+        $prototype.append($deleteLink);
+        $deleteLink.click(function (e) {
+            $prototype.remove();
+            e.preventDefault();
+            return false;
+        });
+    }
+
+    function displayChildForm($container, $selection) {
+        var $fieldset = $container.parent();
+        $fieldset.append("<div id='btn_add_child'><button class='btn btn-outline-success btn-sm' type='button' id='add_" + $selection + "'><span class='fa fa-plus-circle'></span> Ajouter plus</button></div>");
+        if (typeof $container !== 'undefined') {
+            $container.css({ 'padding': '8.5px 17px','margin': '10px 20px 17px','borderLeft':'5px solid #eeeeee'});
+            var $index = $container.find('input').length;
+
+            $('#add_' + $selection).click(function (e) {
+                addContent($container);
+                e.preventDefault();
+                return false;
+            });
+
+            if ($index == 0) {
+                addContent($container, $index);
+            } else {
+                $container.children('div').each(function () {
+                    addDeleteLink($(this));
+                });
+            }
+        }
+    }
+
+
+</script>
+    <div class="card">
+        <div class="card-header" style="background: #1f2638;box-shadow: 0 2px 2px rgba(0,0,0,.04);">
+            <div class="card-title text-white">{{ title }}</div>
+        </div>
+        <div class="card-body">
+
+            {{ form_start(form) }}
+            {% if formCustom==true %}
+                {% set url=folder~"add.html.twig" %}
+                {{ include(url) }}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+
+            {% for i,s in selection %}
+                {% if s!="not" %}
+                    <div>
+                        <style type="text/css">
+                            #automatic_form_{{ s }} > div > label {
+                                display: none;
+                            }
+
+                        </style>
+                    </div>
+                    <script type="text/javascript">
+
+                      {#   displayChildForm($("div#automatic_form_{{ s }}"), "{{ s }}");#}
+                    </script>
+                {% endif %}
+{% endfor %}
+            <button type="submit" class="btn btn-info mr-3"><i
+                        class="fa fa-save"></i> {{ button_label|default('Enregistrer') }}
+                <button type="reset" class="btn btn-danger"><i class="fa fa-times"></i> Annuler</button>
+{{ form_end(form) }}
+        </div>
+    </div>
+</div>

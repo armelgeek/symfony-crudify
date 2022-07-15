@@ -1,24 +1,50 @@
 {
     "name": "armelwanes/crudify",
-    "description": "generate crud with yaml config",
     "type": "symfony-bundle",
-    "require": {
-        "knplabs/knp-paginator-bundle": "^5.8"
-    },
+    "description": "Generate crud with annotation",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Armelwanes\\Crudify\\": "src/"
-        }
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=7.4"
-    },
     "authors": [
         {
-            "name": "Armel wanes",
+            "name": "Armel Wanes",
             "email": "armelgeek5@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "php": "^7.4",
+        "symfony/console": "*",
+        "symfony/dependency-injection": "*",
+        "symfony/config": "*",
+        "symfony/http-kernel": "*",
+        "knplabs/knp-paginator-bundle": "*",
+        "vich/uploader-bundle": "*",
+        "symfony/event-dispatcher": "*",
+        "symfony/http-foundation": "*",
+        "symfony/http-kernel": "*",
+        "symfony/routing": "*",
+        "symfony/translation": "*",
+        "twig/twig": "*",
+        "symfony/webpack-encore-bundle": "*",
+        "symfony/orm-pack":"*",
+        "symfony/asset":"*",
+        "symfony/framework-bundle":"*",
+        "symfony/cache":"*",
+        "symfony/finder":"*",
+        "symfony/form":"*",
+        "symfony/options-resolver":"*",
+        "nesbot/carbon":"*",
+        "symfony/filesystem":"*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "*",
+        "symfony/expression-language": "*",
+        "symfony/templating": "*",
+        "symfony/maker-bundle": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MirayGeek\\Crudify\\": "src/"
+        }
+    }
+    
 }
