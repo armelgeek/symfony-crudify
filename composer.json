@@ -43,7 +43,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MirayGeek\\Crudify\\": "src/"
+            "ArmelWanes\\Crudify\\": "src/"
         }
     }
     
