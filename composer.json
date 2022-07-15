@@ -11,6 +11,7 @@
             "Armelwanes\\Crudify\\": "src/"
         }
     },
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4"
     },
