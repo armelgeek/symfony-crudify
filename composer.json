@@ -1,0 +1,23 @@
+{
+    "name": "armelwanes/crudify",
+    "description": "generate crud with yaml config",
+    "type": "symfony-bundle",
+    "require": {
+        "knplabs/knp-paginator-bundle": "^5.8"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Armelwanes\\Crudify\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2"
+    }
+    "authors": [
+        {
+            "name": "Armel wanes",
+            "email": "armelgeek5@gmail.com"
+        }
+    ]
+}
